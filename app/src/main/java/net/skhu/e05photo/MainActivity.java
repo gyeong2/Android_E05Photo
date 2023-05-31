@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         Class classObj = null;
         switch (view.getId()) {
             case R.id.button1: classObj = Photo1Activity.class; break;
+            case R.id.button2: classObj = Photo2Activity.class; break;
+            case R.id.button3: classObj = Photo3Activity.class; break;
         }
         Intent intent = new Intent(this, classObj);
         startActivity(intent);
