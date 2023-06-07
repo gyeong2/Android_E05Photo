@@ -17,7 +17,7 @@ import java.util.Date;
 public class FileRecyclerView2Adapter extends RecyclerView.Adapter<FileRecyclerView2Adapter.ViewHolder> {
     static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textView1, textView2, textView3;
         ImageView imageView;
 
@@ -27,6 +27,7 @@ public class FileRecyclerView2Adapter extends RecyclerView.Adapter<FileRecyclerV
             textView2 = view.findViewById(R.id.textView2);
             textView3 = view.findViewById(R.id.textView3);
             imageView = view.findViewById(R.id.imageView);
+            view.setOnClickListener(this);
         }
 
         public void setData(int index) {
@@ -37,14 +38,26 @@ public class FileRecyclerView2Adapter extends RecyclerView.Adapter<FileRecyclerV
             textView3.setText(s);
             imageView.setImageURI(Uri.fromFile(file));
         }
+
+        @Override
+        public void onClick(View v) {
+            int index = getAdapterPosition();
+            File file = files[index];
+            if (clickListener != null) clickListener.onClick(index, file);
+        }
     }
 
     LayoutInflater layoutInflater;
     File[] files;
+    OnFileClickListener clickListener;
 
     public FileRecyclerView2Adapter(Context context, File[] files) {
         this.layoutInflater = LayoutInflater.from(context);
         this.files = files;
+    }
+
+    public void setOnFileClickListener(OnFileClickListener listener) {
+        this.clickListener = listener;
     }
 
     @Override
